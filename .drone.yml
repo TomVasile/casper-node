@@ -471,7 +471,8 @@ name: nightly-tests-cron
 
 steps:
 - name: nctl-nighly-script
-  image: casperlabs/node-build-u1804
+  image: plugins/s3
+  #image: casperlabs/node-build-u1804
   commands:
   - "echo $DRONE_COMMIT"
 
