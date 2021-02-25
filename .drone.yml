@@ -473,9 +473,7 @@ steps:
 - name: nctl-nighly-script
   image: casperlabs/node-build-u1804
   commands:
-  - "python3 -m pip install supervisor toml"
-  - "apt update && apt install lsof -y"
-  - "bash -i ci/nightly-test.sh"
+  - "echo $DRONE_COMMIT"
 
 - name: notify
   image: plugins/slack
