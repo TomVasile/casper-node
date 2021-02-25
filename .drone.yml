@@ -485,8 +485,7 @@ steps:
       from_secret: drone_genesis_key_id
     secret_key:
       from_secret: drone_genesis_secret
-    source: "target/upgrade_build/**/*"
-    strip_prefix: 'target/upgrade_build/'
+    source: "test_file.txt"
     target: "/drone/${DRONE_COMMIT}/"
 
 trigger:
