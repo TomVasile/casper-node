@@ -471,10 +471,23 @@ name: nightly-tests-cron
 
 steps:
 - name: nctl-nighly-script
-  image: plugins/s3
-  #image: casperlabs/node-build-u1804
+  image: casperlabs/node-build-u1804
   commands:
   - "echo $DRONE_COMMIT"
+  - "touch test_file.txt"
+
+- name: s3-test
+  image: plugins/s3
+  settings:
+    bucket: 'test-tom.casperlabs.io'
+    region: 'us-east-2'
+    access_key:
+      from_secret: drone_genesis_key_id
+    secret_key:
+      from_secret: drone_genesis_secret
+    source: "target/upgrade_build/**/*"
+    strip_prefix: 'target/upgrade_build/'
+    target: "/drone/${DRONE_COMMIT}/"
 
 - name: notify
   image: plugins/slack
