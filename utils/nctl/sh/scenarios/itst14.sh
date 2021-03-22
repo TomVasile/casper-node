@@ -38,7 +38,7 @@ function main() {
     # 7. Verify all nodes are in sync
     check_network_sync
     # 8. Verify node proposed a block
-    assert_node_proposed '5' '180'
+    assert_node_proposed '5' '240'
     # 9. Verify we are in the same era
     assert_same_era "$STOPPED_ERA"
     # 10. Wait an era
