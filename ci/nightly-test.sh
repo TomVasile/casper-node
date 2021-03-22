@@ -27,6 +27,8 @@ function start_run_teardown() {
     local RUN_CMD=$1
     local RUN_CHAINSPEC=$2
     local RUN_ACCOUNTS=$3
+    # make sure nothing is leftover
+    nctl-assets-teardown
     echo "Setting up network: $RUN_CMD $RUN_CHAINSPEC $RUN_ACCOUNTS"
     if [ -z "$RUN_CHAINSPEC" ] && [ -z "$RUN_ACCOUNTS" ]; then
         nctl-assets-setup
@@ -51,7 +53,7 @@ function start_run_teardown() {
 }
 
 #start_run_teardown "sync_test.sh node=6 timeout=500"
-#start_run_teardown "sync_upgrade_test.sh node=6 era=4 timeout=500"
+start_run_teardown "sync_upgrade_test.sh node=6 era=4 timeout=500"
 #start_run_teardown "itst01.sh"
 #start_run_teardown "itst02.sh"
 #start_run_teardown "itst11.sh"
