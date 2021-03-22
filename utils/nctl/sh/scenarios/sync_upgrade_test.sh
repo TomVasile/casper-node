@@ -35,17 +35,17 @@ function main() {
     do_upgrade_network
     # 5. Wait for the network to upgrade.
     do_await_network_upgrade
-    # 6. Take a note of the last finalized block hash
+    # Take a note of the last finalized block hash
     do_read_lfb_hash
-    # 7. Send batch of Wasm deploys
+    # 6. Send batch of Wasm deploys
     do_send_wasm_deploys
-    # 8. Send batch of native transfers
+    # 7. Send batch of native transfers
     do_send_transfers
-    # 9. Wait until they're all included in the chain.
+    # 8. Wait until they're all included in the chain.
     do_await_deploy_inclusion
-    # 10. Start the node in sync mode using hash from 4)
+    # 9. Start the node in sync mode using hash from 4)
     do_start_new_node "$NEW_NODE_ID"
-    # 11. Wait until it's synchronized
+    # 10. Wait until it's synchronized
     #     and verify that its last finalized block matches other nodes'.
     do_await_full_synchronization "$NEW_NODE_ID"
 
@@ -77,10 +77,12 @@ function do_upgrade_network() {
 }
 
 function do_await_network_upgrade() {
-    log_step "wait for the network to upgrade"
     local WAIT_TIME_SEC=0
     local WAIT_UNTIL=$((ACTIVATE_ERA + 1))
+    log_step "waiting until era $WAIT_UNTIL for the network to upgrade"
     while [ "$(get_chain_era)" != "$WAIT_UNTIL" ]; do
+    log "DEBUG: era=$(get_chain_era) wait_until:$WAIT_UNTIL"
+    log "DEBUG: Loop:"$WAIT_TIME_SEC" of $SYNC_TIMEOUT_SEC"
     if [ "$WAIT_TIME_SEC" = "$SYNC_TIMEOUT_SEC" ]; then
         log "ERROR: Failed to upgrade the network in ${SYNC_TIMEOUT_SEC} seconds"
             exit 1
@@ -134,7 +136,9 @@ function do_start_new_node() {
     log_step "starting new node-$NODE_ID. Syncing from hash=${LFB_HASH}"
     export RUST_LOG="info,casper_node::components::linear_chain_sync=trace"
     # TODO: Do not hardcode.
+    log "DEBUG: pre-start"
     do_node_start "$NODE_ID" "$LFB_HASH"
+    log "DEBUG: post-start"
 }
 
 function do_await_full_synchronization() {

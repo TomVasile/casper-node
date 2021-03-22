@@ -13,17 +13,21 @@ function do_node_start()
     local PATH_TO_NODE_CONFIG
     local PROCESS_NAME
 
+    log "pre-if"
     if [ ! -e "$(get_path_net_supervisord_sock)" ]; then
         do_supervisord_start
     fi
-
+    log "post-if"
+    log "pre-if 2"
     if [ -n "$TRUSTED_HASH" ]; then
         PATH_TO_NODE_CONFIG=$(get_path_to_net)/nodes/node-"$NODE_ID"/config/1_0_0/config.toml
         _update_node_config_on_start "$PATH_TO_NODE_CONFIG" "$TRUSTED_HASH"
     fi
-
+    log "post-if 2"
     PROCESS_NAME=$(get_process_name_of_node_in_group "$NODE_ID")
+    log "pre superctl"
     supervisorctl -c "$(get_path_net_supervisord_cfg)" start "$PROCESS_NAME"  > /dev/null 2>&1
+    log "post superctl"
 }
 
 #######################################
