@@ -3,19 +3,32 @@ set -e
 
 # Meant to run only in CI
 if [ -z "${DRONE}" ]; then
-  echo "Must be run on Drone!"
-  exit 1
+  #echo "Must be run on Drone!"
+  #exit 1
+  DRONE_ROOT_DIR="${PWD}/.."
+  SCENARIOS_DIR="$DRONE_ROOT_DIR/utils/nctl/sh/scenarios"
+  SCENARIOS_CHAINSPEC_DIR="$SCENARIOS_DIR/chainspecs"
+  SCENARIOS_ACCOUNTS_DIR="$SCENARIOS_DIR/accounts_toml"
+  LAUNCHER_DIR="${PWD}/../.."
+else
+  DRONE_ROOT_DIR="/drone/src"
+  SCENARIOS_DIR="$DRONE_ROOT_DIR/utils/nctl/sh/scenarios"
+  SCENARIOS_CHAINSPEC_DIR="$SCENARIOS_DIR/chainspecs"
+  SCENARIOS_ACCOUNTS_DIR="$SCENARIOS_DIR/accounts_toml"
+  LAUNCHER_DIR="/drone"
 fi
 
-DRONE_ROOT_DIR="/drone/src"
-SCENARIOS_DIR="$DRONE_ROOT_DIR/utils/nctl/sh/scenarios"
-SCENARIOS_CHAINSPEC_DIR="$SCENARIOS_DIR/chainspecs"
-SCENARIOS_ACCOUNTS_DIR="$SCENARIOS_DIR/accounts_toml"
-LAUNCHER_DIR="/drone"
+#DRONE_ROOT_DIR="/drone/src"
+#SCENARIOS_DIR="$DRONE_ROOT_DIR/utils/nctl/sh/scenarios"
+#SCENARIOS_CHAINSPEC_DIR="$SCENARIOS_DIR/chainspecs"
+#SCENARIOS_ACCOUNTS_DIR="$SCENARIOS_DIR/accounts_toml"
+#LAUNCHER_DIR="/drone"
 
 # NCTL requires casper-node-launcher
-pushd $LAUNCHER_DIR
-git clone https://github.com/CasperLabs/casper-node-launcher.git
+if [ ! -d "$LAUNCHER_DIR/casper-node-launcher" ]; then
+  pushd $LAUNCHER_DIR
+  git clone https://github.com/CasperLabs/casper-node-launcher.git
+fi
 
 # Activate Environment
 pushd $DRONE_ROOT_DIR
@@ -48,22 +61,22 @@ function start_run_teardown() {
     echo "Starting scenario: $RUN_CMD $RUN_CHAINSPEC $RUN_ACCOUNTS"
     source $RUN_CMD
     popd
-    nctl-assets-teardown
+    #nctl-assets-teardown
     sleep 1
 }
 
-start_run_teardown "itst01.sh"
+#start_run_teardown "itst01.sh"
 start_run_teardown "itst02.sh"
-start_run_teardown "itst06.sh"
-start_run_teardown "itst11.sh"
-start_run_teardown "itst13.sh" "itst13.chainspec.toml.in"
-start_run_teardown "itst14.sh" "itst14.chainspec.toml.in" "itst14.accounts.toml"
-start_run_teardown "bond_its.sh" "bond_its.chainspec.toml.in" "bond_its.accounts.toml"
-start_run_teardown "sync_test.sh node=6 timeout=500"
+#start_run_teardown "itst06.sh"
+#start_run_teardown "itst11.sh"
+#start_run_teardown "itst13.sh" "itst13.chainspec.toml.in"
+#start_run_teardown "itst14.sh" "itst14.chainspec.toml.in" "itst14.accounts.toml"
+#start_run_teardown "bond_its.sh" "bond_its.chainspec.toml.in" "bond_its.accounts.toml"
+#start_run_teardown "sync_test.sh node=6 timeout=500"
 # Keep this test last
-start_run_teardown "sync_upgrade_test.sh node=6 era=5 timeout=500"
+#start_run_teardown "sync_upgrade_test.sh node=6 era=5 timeout=500"
 
 # Clean up cloned repo
 popd
-echo "Removing $LAUNCHER_DIR/casper-node-launcher"
-rm -rf "$LAUNCHER_DIR/casper-node-launcher"
+#echo "Removing $LAUNCHER_DIR/casper-node-launcher"
+#rm -rf "$LAUNCHER_DIR/casper-node-launcher"
