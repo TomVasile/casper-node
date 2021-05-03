@@ -68,7 +68,6 @@ steps:
     region: us-east-2
     source: target/debian/
     target: "/drone_temp/${DRONE_BUILD_NUMBER}_${DRONE_REPO_OWNER}_${DRONE_REPO_NAME}/debian/"
-    dry_run: true
 
 depends_on:
   - pre-checks
