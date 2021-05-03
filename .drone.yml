@@ -66,7 +66,7 @@ steps:
     secret_key:
       from_secret: put-drone-aws-sk
     region: us-east-2
-    source: "target/debian/*"
+    source: target/debian/
     target: "/drone_temp/${DRONE_BUILD_NUMBER}_${DRONE_REPO_OWNER}_${DRONE_REPO_NAME}/debian/"
     dry_run: true
 
