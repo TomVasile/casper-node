@@ -72,9 +72,10 @@ steps:
 - name: get-and-del-drone-s3-cache
   image: casperlabs/s3cmd-build:latest
   commands:
+    - ls -al ./target/debian/
     - rm -f ./target/debian/*
     - ls -al ./target/debian/
-    - s3cmd sync "s3://${AWS_BUCKET}/drone_temp/${DRONE_BUILD_NUMBER}_${DRONE_REPO_OWNER}_${DRONE_REPO_NAME}/debian/" "./target/debian"
+    - s3cmd sync "s3://${AWS_BUCKET}/drone_temp/${DRONE_BUILD_NUMBER}_${DRONE_REPO_OWNER}_${DRONE_REPO_NAME}/debian/" "./target/debian/"
     - ls -al ./target/debian/
     #- ./ci/drone_s3_storage.sh del
   environment:
