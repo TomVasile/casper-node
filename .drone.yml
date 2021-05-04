@@ -73,8 +73,8 @@ steps:
   image: casperlabs/s3cmd-build:latest
   commands:
     - ls -al ./target/debian/
-    - rm -f ./target/debian/*
-    - ls -al ./target/debian/
+    #- rm -f ./target/debian/*
+    #- ls -al ./target/debian/
     - echo "$AWS_BUCKET"
     - s3cmd sync "s3://$AWS_BUCKET/drone_temp/${DRONE_BUILD_NUMBER}_${DRONE_REPO_OWNER}_${DRONE_REPO_NAME}/debian/" "./target/debian/"
     - ls -al ./target/debian/
