@@ -100,8 +100,7 @@ trigger:
 
 volumes:
 - name: nctl-temp-dir
-  host:
-    path: /tmp/nctl_upgrade_stage
+  temp: {}
 
 ---
 # act on release - when the tag is created
@@ -135,8 +134,7 @@ steps:
 
 volumes:
 - name: nctl-temp-dir
-  host:
-    path: /tmp/nctl_upgrade_stage
+  temp: {}
 
 trigger:
   ref:
