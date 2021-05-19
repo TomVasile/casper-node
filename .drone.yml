@@ -55,7 +55,7 @@ steps:
   commands:
     - "./ci/nctl_upgrade_stage.sh"
   volumes:
-  - name: tmp_dir
+  - name: nctl-temp-dir
     path: /tmp/nctl_upgrade_stage
   when:
     branch:
@@ -75,7 +75,7 @@ steps:
     source: '/tmp/nctl_upgrade_stage/'
     target: "/${DRONE_BRANCH}/"
   volumes:
-  - name: tmp_dir
+  - name: nctl-temp-dir
     path: /tmp/nctl_upgrade_stage
   when:
     branch:
@@ -99,8 +99,9 @@ trigger:
       - tag
 
 volumes:
-- name: tmp_dir
-  temp: {}
+- name: nctl-temp-dir
+  host:
+    path: /tmp/nctl_upgrade_stage
 
 ---
 # act on release - when the tag is created
@@ -114,7 +115,7 @@ steps:
   commands:
     - "./ci/nctl_upgrade_stage.sh"
   volumes:
-  - name: tmp_dir
+  - name: nctl-temp-dir
     path: /tmp/nctl_upgrade_stage
 
 - name: nctl-bucket-upload
@@ -129,12 +130,13 @@ steps:
     source: '/tmp/nctl_upgrade_stage/'
     target: "/${DRONE_TAG}/"
   volumes:
-  - name: tmp_dir
+  - name: nctl-temp-dir
     path: /tmp/nctl_upgrade_stage
 
 volumes:
-- name: tmp_dir
-  temp: {}
+- name: nctl-temp-dir
+  host:
+    path: /tmp/nctl_upgrade_stage
 
 trigger:
   ref:
