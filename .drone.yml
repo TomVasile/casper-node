@@ -72,7 +72,7 @@ steps:
     secret_key:
       from_secret: put-drone-aws-sk
     region: us-east-2
-    source: '/tmp/nctl_upgrade_stage/'
+    source: '../../tmp/nctl_upgrade_stage/'
     target: "/${DRONE_BRANCH}/"
   volumes:
   - name: nctl-temp-dir
@@ -127,7 +127,7 @@ steps:
     secret_key:
       from_secret: put-drone-aws-sk
     region: us-east-2
-    source: '/tmp/nctl_upgrade_stage/'
+    source: '../../tmp/nctl_upgrade_stage/'
     target: "/${DRONE_TAG}/"
   volumes:
   - name: nctl-temp-dir
