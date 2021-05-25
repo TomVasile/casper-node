@@ -6,6 +6,7 @@ function main() {
     ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null 2>&1 && pwd)"
     pushd "$ROOT_DIR"
 
+    ls -al $(pwd)/utils/nctl/activate
     # Activate nctl aliases
     source $(pwd)/utils/nctl/activate
 
