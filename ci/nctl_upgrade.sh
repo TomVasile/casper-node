@@ -7,7 +7,7 @@ function main() {
     pushd "$ROOT_DIR"
 
     # Activate nctl aliases
-    source "$ROOT_DIR"/utils/nctl/activate
+    source $(pwd)/utils/nctl/activate
 
     # Stage
     get_remotes
